@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'cn.apisium.nekomaid.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven {
+        name = 'jitpack'
+        url = 'https://www.jitpack.io'
+    }
+}
+
+dependencies {
+    compileOnly 'com.github.neko-craft:NekoMaid:cf4957476a'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly ('org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT') {
+        exclude group: 'org.bukkit'
+    }
+
+    annotationProcessor 'org.spigotmc:plugin-annotations:1.2.3-SNAPSHOT'
+
+    jar {
+        from {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+        }
+    }
+}
